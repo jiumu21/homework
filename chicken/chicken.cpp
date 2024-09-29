@@ -54,7 +54,7 @@ class Chicken
         }
         void setName(const char *_name)
         {
-        	if(strcmp(name,_name)==0)
+        	if((name != nullptr)&&(strcmp(name,_name)==0))
         	 return ;
             if(name != nullptr)
                 delete[] name;
