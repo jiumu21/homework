@@ -1,0 +1,132 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{张靖明, 3230106094}
+\chead{数据结构与算法第5次作业}
+\rhead{Nov.3th, 2024}
+
+\section{remove函数的设计思路}
+	首先检查当前节点t是否为nullptr，如果是，则说明树为空，无法进行删除操作，此时抛出UnderflowException异常。 
+
+	其次，通过递归找到要删除的节点：如果要删除的元素x小于当前节点的值t->element，则在左子树中递归调用remove函数继续查找要删除的节点，即通过不断深入左子树来找到目标节点；如果x大于当前节点的值，则在右子树中递归调用remove函数进行同样的操作。
+	当找到要删除的节点时，先对该节点进行初步判断：如果当前节点t有两个子树，需要找到合适的节点来替换当前节点以完成删除操作。调用detachMin函数在当前节点的右子树中找到最小节点，并将其赋值给currentpos。这个最小节点将用来替换当前要删除的节点。将找到的最小节点currentpos的左子树设置为当前节点t的左子树，右子树设置为当前节点t的右子树。这样就确保了替换后的节点能够正确地连接到原来节点的子树。删除原来的节点t。最后将当前节点t指向替换后的节点。
+	
+	如果只有一个子树或没有子树时，创建一个临时指针pos指向当前节点t，
+如果当前节点t的左子树为空，那么将当前节点t指向其右子树，即用右子树来替换当前节点。如果右子树为空，则将当前节点t指向其左子树，即用左子树来替换当前节点。删除临时指针pos指向的节点，完成删除操作。
+
+\section{测试的结果与分析}
+ 
+The initial Tree is: 
+
+2
+
+6
+
+8
+
+9
+
+10
+
+12
+
+15
+
+16
+
+After the first removing,the current Tree is:
+
+2
+
+6
+
+9
+
+10
+
+12
+
+15
+
+16
+
+After the second removing,the current Tree is:
+
+2
+
+9
+
+10
+
+12
+
+15
+
+16
+
+After the third removing,the current Tree is:
+
+2
+
+9
+
+10
+
+12
+
+15
+
+terminate called after throwing an instance of 'UnderflowException'
+
+创建一个整数类型的二叉搜索树，通过一系列的insert操作插入整数节点：8、6、12、2、9、10、15、16。此时，二叉搜索树根据插入的节点值形成了特定的树结构，之后打印初始二叉树，以便观察插入节点后的树的形态。
+
+第一次调用remove函数，删除根节点值为 8 的节点。根据二叉搜索树的删除算法，会根据节点的子树情况进行不同的处理。如果节点有两个子树，会找到右子树中的最小节点来替换被删除的节点；如果节点只有一个子树或没有子树，则直接用子树或nullptr来替换被删除的节点。再次调用printTree函数打印出删除根节点后的二叉搜索树结构，观察树的变化。
+第二次调用remove函数，此时删去的节点只有一个子节点同样根据删除算法进行处理。再次调用printTree函数打印出此时的二叉搜索树结构。
+
+第三次调用remove函数，删去叶子节点，该类节点的删除相对简单，直接将其父节点中指向该叶子节点的指针置为nullptr即可。
+
+最后，调用makeEmpty函数清空二叉搜索树：调用remove(10)尝试删除值为 10 的节点，但此时树已为空，这个操作不会产生实际效果。
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
