@@ -1,0 +1,61 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{张靖明, 3230106094}
+\chead{数据结构与算法第6次作业}
+\rhead{Nov.10th, 2024}
+
+\section{remove函数的设计思路}
+	
+首先检查输入的根节点是否为nullptr：如果是，抛出UnderflowException异常。
+
+然后根据要删除的值x与当前节点的值进行比较，直到找到x的位置。
+
+如果当前节点有两个子树：调用detachMin函数（此时的detachMin函数已经更新相关节点的高度）找到右子树中的最小节点，这个最小节点将用来替换当前要删除的节点。将找到的最小节点的左子树设置为当前节点的左子树，右子树设置为当前节点的右子树，这样就保持了二叉搜索树的性质。删除当前节点（释放内存），并让t指向找到的最小节点，完成替换。
+
+如果当前节点只有一个或没有子树：创建一个临时指针pos指向当前节点，修改指向，最后删除当前节点。
+
+最后的balance函数会逆着搜索路径，对该路径的每个节点进行平衡，最后达到整个AVL树的平衡。
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
