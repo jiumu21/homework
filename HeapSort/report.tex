@@ -1,0 +1,80 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{张靖明, 3230106094}
+\chead{数据结构与算法第7次作业}
+\rhead{Nov.30th, 2024}
+
+\section{HeapSort.h的设计思路}
+	
+首先，利用make\_heap函数将a转化成一个max堆，通过pop\_heap函数将最大值移动到最后一个位置，在此循坏中，重新调整容器，使其仍然是一个堆，但范围缩小了一个元素，以此类推，最终使得序列排序完成。
+
+\section{test.cpp设计思路}
+
+首先对于check函数，利用循坏结构，对于接收到的数组从下标i=1开始逐次与前一个进行比较，如果小于前一个，说明不是升序排列，返回false；如果后一个元素都不小于前一个元素，则返回true。
+
+接着涉及四个函数分别为Random（）、Ordered（）、ReverseOrdered（）、Repeated（）构建包含1000000个元素的随机序列、有序序列、逆序序列和有重复元素的序列。
+
+通过循环结构进行四次不同序列的测试，在每一次测试中，将上述对应的函数返回值赋给sequence，并对该序列进行拷贝，得到Copysequence。然后对利用HeapSort函数对sequence继续排序，并记录所花费的时间，对于排序好的sequence，check一下，如果检验正确，输出ture，否则输出false，接着输出所用时间；对于Copysequence，首先检测一下是否为max堆，如果不是，利用make\_heap()使其成为一个max堆，之后用sort\_heap()进行排序并且记录花费时间，之后操作同上述sequence序列。
+
+\section{Result}
+
+随机序列通过HeapSort排序用时 : 548ms 排序正确
+
+随机序列通过sort\_heap排序用时 : 536ms 排序正确
+
+有序序列通过HeapSort排序用时 : 276ms 排序正确
+
+有序序列通过sort\_heap排序用时 : 248ms 排序正确
+
+逆序序列通过HeapSort排序用时 : 255ms 排序正确
+
+逆序序列通过sort\_heap排序用时 : 256ms 排序正确
+
+重复序列通过HeapSort排序用时 : 464ms 排序正确
+
+重复序列通过sort\_heap排序用时 : 435ms 排序正确
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
