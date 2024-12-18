@@ -1,0 +1,117 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{张靖明, 3230106094}
+\chead{数据结构与算法项目作业}
+\rhead{12月18日, 2024}
+
+\section{expression\_evaluator.h的设计思路}
+	
+这一部分主要包括（一）运算符优先级定义函数；（二）三类判断函数：分别判断字符是否代表数字、运算符以及是否为合法字符；（三）两数间的四则计算;（四）判断中缀表达式是否合法以及将其转化为后缀进行计算；（五）对转化后的后缀表达式的计算函数。
+
+这其中，最为重要的是check\_and\_convert函数的设计。首先获取输入字符串 s 的长度，并初始化一些变量，包括 point（用于标记是否已经出现过小数点）、data（用于标记是否出现过有效数据字符）和 mark（用于标记是否出现过运算符）。如果字符串为空，返回 false。接着对第一个字符进行处理，考虑其可能情况，逐一分析。之后对每一个字符进行排查，考虑数字字符、运算符、小数点、以及两种括号的情况，实现了将一个可能包含括号、小数点和运算符的字符串转换为后缀表达式的功能，同时进行了严格的格式检查以确保输入的合法性。
+
+该项目四则运算要求至少出现一次运算符（“（2）”判定非法），可以排除运算符连续使用、除数为0（0.0、0.00等视为0看待）、括号不匹配、小数点使用错误、括号与数字的不恰当连用等情况。注意：“（1+4）”、“（（1×2））”等视为合法表达。
+
+\section{main.cpp的设计思路}
+
+这一部分my\_test给出25个例子，包含括号不匹配、出现非法字符、运算符连续使用、运算符出现在首位或末位、括号间无运算符、括号与数字间无运算符、除数为0、小数点使用不当等。
+
+同时包含input，对使用者输入的字符串进行判断。
+
+\section{The Result}
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+ILLEGAL
+
+The result is : 29.56
+
+The result is : 11.5
+
+The result is : 2
+
+The result is : 0.2
+
+The result is : 6.5
+
+The result is : 3.4
+
+The result is : 0.922226
+
+The result is : -5
+
+Input : (此处支持输入你的表达式)
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
